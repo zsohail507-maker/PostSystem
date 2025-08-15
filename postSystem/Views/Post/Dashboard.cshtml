@@ -1,0 +1,56 @@
+﻿@model List<postSystem.Models.Entities.Posts>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>User Posts</title>
+    <!-- Bootstrap 5 CDN -->
+   <link rel="stylesheet" href="@Url.Content("~/css/Dashboard.css")" />
+	
+</head>
+<body>
+
+    <nav class="navbar navbar-light bg-light margin-bottom">
+        <div class=" nav-child1">
+			<div>
+				<a asp-controller="Post" asp-action="AddPost" class="btnLog1 d-inline">
+					New Post
+				</a>
+			</div>
+			<div>
+            <a class="fontlarge">Welcome, @ViewBag.Username</a>
+			</div>
+			<div>			
+            <a asp-controller="Post" asp-action="logout" type="button" class="btnLog d-inline">
+                Logout
+            </a>
+			</div>
+
+		</div>
+    </nav>
+
+ 
+	@foreach(var post in Model)
+	{
+		<div class="modal margin-bottom">
+			<article class="modal-container">
+				<header class="modal-container-header">
+					<span class="modal-container-title">
+						@post.name	
+					</span>
+
+				</header>
+				<section class="modal-container-body rtf">
+					<p>@post.description</p>
+				</section>
+				<footer class="modal-container-footer">
+					<a asp-action="ViewPost" asp-controller="Post" asp-route-id ="@post.Id" class="button is-primary">Details</a>
+				</footer>
+			</article>
+		</div>
+    }
+
+    
+</body>
+</html>
