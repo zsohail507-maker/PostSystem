@@ -104,10 +104,7 @@ namespace postSystem.Controllers
 
             Posts? existingPost = _masterDBContext.Posts.FirstOrDefault(p => p.Id == post.Id);
 
-            if (existingPost == null)
-            {
-                return NotFound();
-            }
+            
 
 
             existingPost.updatedAt = DateTime.Now;
