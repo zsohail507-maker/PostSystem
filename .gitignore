@@ -1,1 +1,80 @@
-.vs/postSystem/CopilotIndices/17.14.939.21063/CodeChunks.db
+############################
+# Build Output
+############################
+bin/
+obj/
+out/
+publish/
+artifacts/
+
+############################
+# Visual Studio / IDE
+############################
+.vs/
+.vscode/
+.idea/
+
+*.user
+*.rsuser
+*.suo
+*.userosscache
+*.sln.docstates
+
+############################
+# Logs
+############################
+*.log
+logs/
+TestResults/
+
+############################
+# Entity Framework Core
+############################
+
+# DO NOT ignore Migrations folder
+# (You SHOULD commit it)
+# Migrations/
+
+# Ignore local database files
+*.mdf
+*.ldf
+*.ndf
+*.db
+*.db-shm
+*.db-wal
+*.sqlite
+
+############################
+# ASP.NET Core
+############################
+wwwroot/lib/
+node_modules/
+
+############################
+# Environment & Secrets
+############################
+
+# Keep base config
+# appsettings.json  <-- commit this
+
+# Ignore local overrides
+appsettings.Development.json
+appsettings.Local.json
+
+# User secrets
+secrets.json
+.env
+.env.*
+
+############################
+# NuGet
+############################
+packages/
+*.nupkg
+*.snupkg
+
+############################
+# OS Files
+############################
+.DS_Store
+Thumbs.db

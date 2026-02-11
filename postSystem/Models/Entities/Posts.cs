@@ -1,16 +1,20 @@
 ﻿namespace postSystem.Models.Entities
 {
-    public class Posts
+    public class Post
     {
         public Guid Id { get; set; }
-        public string name { get; set; } = null!;
-        public string description { get; set; } = null!;
-        public string Owner { get; set; } = null!; 
-        public DateTime? createdAt { get; set; }
-        public DateTime? updatedAt { get; set; }
-        public Guid UserId { get; set; }
 
-        public Users User { get; set; } = null!;
-        public ICollection<Comments> Comments { get; set; } = new List<Comments>();
+        public string Title { get; set; }
+        public string Slug { get; set; }
+        public string Content { get; set; }
+        public string ImageUrl { get; set; }
+        public string Category { get; set; }
+        public int LikesCount { get; set; }
+        public int ViewsCount { get; set; }
+
+        public bool IsPublished { get; set; }
+        public DateTime CreatedAt { get; set; }
+
+        public ICollection<Comment> Comments { get; set; } = new List<Comment>();
     }
 }

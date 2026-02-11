@@ -15,55 +15,57 @@ build_property.EnforceExtendedAnalyzerRules =
 build_property.EnforceExtendedAnalyzerRules = 
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property._SupportedPlatformList = Linux,macOS,Windows
+build_property.TargetFrameworkIdentifier = .NETCoreApp
+build_property.TargetFrameworkVersion = v8.0
 build_property.RootNamespace = postSystem
 build_property.RootNamespace = postSystem
-build_property.ProjectDir = C:\Users\HP\Desktop\postSystem\postSystem\
+build_property.ProjectDir = C:\Users\Fahad\Documents\Codess\Projects\DotNetCsharp\PostSystem\postSystem\
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 
 build_property.RazorLangVersion = 8.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
-build_property.MSBuildProjectDirectory = C:\Users\HP\Desktop\postSystem\postSystem
+build_property.MSBuildProjectDirectory = C:\Users\Fahad\Documents\Codess\Projects\DotNetCsharp\PostSystem\postSystem
 build_property._RazorSourceGeneratorDebug = 
 build_property.EffectiveAnalysisLevelStyle = 8.0
 build_property.EnableCodeStyleSeverity = 
 
-[C:/Users/HP/Desktop/postSystem/postSystem/Views/Login/Index.cshtml]
+[C:/Users/Fahad/Documents/Codess/Projects/DotNetCsharp/PostSystem/postSystem/Views/Login/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTG9naW5cSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/HP/Desktop/postSystem/postSystem/Views/Login/SignUp.cshtml]
+[C:/Users/Fahad/Documents/Codess/Projects/DotNetCsharp/PostSystem/postSystem/Views/Login/SignUp.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTG9naW5cU2lnblVwLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/HP/Desktop/postSystem/postSystem/Views/Post/AddPost.cshtml]
+[C:/Users/Fahad/Documents/Codess/Projects/DotNetCsharp/PostSystem/postSystem/Views/Post/AddPost.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUG9zdFxBZGRQb3N0LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/HP/Desktop/postSystem/postSystem/Views/Post/Dashboard.cshtml]
+[C:/Users/Fahad/Documents/Codess/Projects/DotNetCsharp/PostSystem/postSystem/Views/Post/Dashboard.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUG9zdFxEYXNoYm9hcmQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/HP/Desktop/postSystem/postSystem/Views/Post/EditPost.cshtml]
+[C:/Users/Fahad/Documents/Codess/Projects/DotNetCsharp/PostSystem/postSystem/Views/Post/EditPost.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUG9zdFxFZGl0UG9zdC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/HP/Desktop/postSystem/postSystem/Views/Post/ViewPost.cshtml]
+[C:/Users/Fahad/Documents/Codess/Projects/DotNetCsharp/PostSystem/postSystem/Views/Post/ViewPost.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUG9zdFxWaWV3UG9zdC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/HP/Desktop/postSystem/postSystem/Views/Shared/Error.cshtml]
+[C:/Users/Fahad/Documents/Codess/Projects/DotNetCsharp/PostSystem/postSystem/Views/Shared/Error.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEVycm9yLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/HP/Desktop/postSystem/postSystem/Views/Shared/_ValidationScriptsPartial.cshtml]
+[C:/Users/Fahad/Documents/Codess/Projects/DotNetCsharp/PostSystem/postSystem/Views/Shared/_ValidationScriptsPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/HP/Desktop/postSystem/postSystem/Views/_ViewImports.cshtml]
+[C:/Users/Fahad/Documents/Codess/Projects/DotNetCsharp/PostSystem/postSystem/Views/_ViewImports.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/HP/Desktop/postSystem/postSystem/Views/_ViewStart.cshtml]
+[C:/Users/Fahad/Documents/Codess/Projects/DotNetCsharp/PostSystem/postSystem/Views/_ViewStart.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 

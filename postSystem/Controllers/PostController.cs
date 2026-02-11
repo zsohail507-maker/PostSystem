@@ -4,129 +4,85 @@ using Microsoft.Extensions.Hosting;
 using postSystem.Models;
 using postSystem.Models.Data;
 using postSystem.Models.Entities;
+using System;
 
 namespace postSystem.Controllers
 {
     public class PostController : Controller
     {
-        private readonly MasterDBContext _masterDBContext;
+        private readonly MasterDBContext _db;
 
-        public PostController(MasterDBContext context)
+        public PostController(MasterDBContext db)
         {
-            _masterDBContext = context;
+            _db = db;
         }
 
-        // Get by id
-        public IActionResult ViewPost(Guid id)
+        // SEO URL: /post/{slug}
+        public async Task<IActionResult> Details(string slug)
         {
-            Posts? post = _masterDBContext.Posts
-        .Include(p => p.Comments)
-        .Include(p => p.User)
-        .FirstOrDefault(p => p.Id == id);
-
-            return View(post);
-        }
-
-        // Get all posts
-        public IActionResult Dashboard()
-        {
-            Users? user = _masterDBContext.Users.FirstOrDefault(u => u.Email == HttpContext.Session.GetString("email"));
-            ViewBag.Username = user.Name;
-
-            List<Posts> posts = _masterDBContext.Posts.ToList<Posts>();
-
-            return View(posts);
-        }
-
-        // Add a new post
-        public IActionResult AddPost()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        public IActionResult AddPost(AddPost post)
-        {
-            if (post.name == null)
-            {
-                ModelState.AddModelError(nameof(post.name), "Title cannot be null");
-                return View(post);
-            }
-            if (post.description == null)
-            {
-                ModelState.AddModelError(nameof(post.description), "Content cannot be null");
-                return View(post);
-            }
-
-            Posts newPost = new Posts();
-
-            newPost.name = post.name;
-            newPost.description = post.description;
-            newPost.createdAt = DateTime.Now;
-
-            var UserEmail = HttpContext.Session.GetString("email");
-            Users? user = _masterDBContext.Users.FirstOrDefault(p => p.Email == UserEmail);
-
-            newPost.UserId = user.Id;
-            newPost.Owner = user.Name;
-
-            _masterDBContext.Posts.Add(newPost);
-            _masterDBContext.SaveChanges();
-            return RedirectToAction("Dashboard");
-        }
-
-        // Edit a post
-        
-        public IActionResult EditPost(Guid id)
-        {
-            Posts? post = _masterDBContext.Posts.FirstOrDefault(p => p.Id == id);
-            if (post == null)
-            {
+            if (string.IsNullOrEmpty(slug))
                 return NotFound();
-            }
-           
+
+            var post = await _db.Posts
+                .Include(p => p.Comments.Where(c => c.IsApproved))
+                .FirstOrDefaultAsync(p => p.Slug == slug && p.IsPublished);
+
+            if (post == null)
+                return NotFound();
+
+            post.ViewsCount++;
+            await _db.SaveChangesAsync();
+
             return View(post);
         }
 
+        // AJAX Like
         [HttpPost]
-        public IActionResult EditPost(Posts post)
+        [Route("post/like")]
+        [IgnoreAntiforgeryToken]
+        public async Task<IActionResult> Like([FromBody] LikeRequest request)
         {
-            if (post.name == null)
+            if (request == null || string.IsNullOrEmpty(request.Fingerprint))
+                return BadRequest();
+
+            var post = await _db.Posts.FindAsync(request.PostId);
+            if (post == null)
+                return NotFound();
+
+            bool alreadyLiked = await _db.PostLikes.AnyAsync(l =>
+                l.PostId == request.PostId &&
+                l.UserFingerprint == request.Fingerprint);
+
+            if (!alreadyLiked)
             {
-                ModelState.AddModelError(nameof(post.name), "Title cannot be null");
-                return View(post);
-            }
-            if (post.description == null)
-            {
-                ModelState.AddModelError(nameof(post.description), "Content cannot be null");
-                return View(post);
-            }
+                _db.PostLikes.Add(new PostLike
+                {
+                    Id = Guid.NewGuid(),
+                    PostId = request.PostId,
+                    UserFingerprint = request.Fingerprint
+                });
 
-            Posts? existingPost = _masterDBContext.Posts.FirstOrDefault(p => p.Id == post.Id);
-
-            
-
-
-            existingPost.updatedAt = DateTime.Now;
-
-            if (post.name != existingPost.name || post.description != existingPost.description)
-            {
-                existingPost.name = post.name;
-                existingPost.description = post.description;
-                _masterDBContext.Posts.Update(existingPost);
-                _masterDBContext.SaveChanges();
+                post.LikesCount++;
+                await _db.SaveChangesAsync();
             }
 
-            return RedirectToAction("Dashboard");
+            return Ok(new { likes = post.LikesCount });
         }
 
 
+       
 
-        public IActionResult logout()
-        {
-
-            HttpContext.Session.Clear();
-            return RedirectToAction("Index", "Login");
-        }
     }
+
+
+    // DTO for AJAX Like
+    public class LikeRequest
+    {
+        public Guid PostId { get; set; }
+        public string Fingerprint { get; set; }
+    }
+
+
+
+    
 }

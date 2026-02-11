@@ -1,0 +1,35 @@
+﻿@model IEnumerable<Comment>
+@{
+    ViewData["Title"] = "Comments";
+}
+<h2>Comment Moderation</h2>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Post</th>
+            <th>User</th>
+            <th>Comment</th>
+            <th>Status</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var c in Model)
+        {
+            <tr>
+                <td>@c.Post.Title</td>
+                <td>@c.UserName</td>
+                <td>@c.Content</td>
+                <td>@(c.IsApproved ? "Approved" : "Pending")</td>
+                <td>
+                    @if (!c.IsApproved)
+                    {
+                        <a asp-action="ApproveComment" asp-route-id="@c.Id"
+                           class="btn btn-sm btn-success">Approve</a>
+                    }
+                    <a asp-action="DeleteComment" asp-route-id="@c.Id" class="btn btn-sm btn-danger">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

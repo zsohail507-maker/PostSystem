@@ -17,143 +17,155 @@ namespace postSystem.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "9.0.8")
+                .HasAnnotation("ProductVersion", "10.0.2")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("postSystem.Models.Entities.Comments", b =>
+            modelBuilder.Entity("postSystem.Models.Entities.AdminUser", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("Owner")
+                    b.Property<string>("Password")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.Property<string>("Username")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Username")
+                        .IsUnique();
+
+                    b.ToTable("AdminUsers");
+                });
+
+            modelBuilder.Entity("postSystem.Models.Entities.Comment", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasMaxLength(1000)
+                        .HasColumnType("nvarchar(1000)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValueSql("GETUTCDATE()");
+
+                    b.Property<bool>("IsApproved")
+                        .HasColumnType("bit");
 
                     b.Property<Guid>("PostId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime?>("createdAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("description")
+                    b.Property<string>("UserName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("updatedAt")
-                        .HasColumnType("datetime2");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("PostId");
 
-                    b.HasIndex("UserId");
-
                     b.ToTable("Comments");
                 });
 
-            modelBuilder.Entity("postSystem.Models.Entities.Posts", b =>
+            modelBuilder.Entity("postSystem.Models.Entities.Post", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("Owner")
+                    b.Property<string>("Category")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime?>("createdAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("description")
+                    b.Property<string>("Content")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("name")
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValueSql("GETUTCDATE()");
+
+                    b.Property<string>("ImageUrl")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime?>("updatedAt")
-                        .HasColumnType("datetime2");
+                    b.Property<bool>("IsPublished")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("LikesCount")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Slug")
+                        .IsRequired()
+                        .HasMaxLength(250)
+                        .HasColumnType("nvarchar(250)");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<int>("ViewsCount")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("Slug")
+                        .IsUnique();
 
                     b.ToTable("Posts");
                 });
 
-            modelBuilder.Entity("postSystem.Models.Entities.Users", b =>
+            modelBuilder.Entity("postSystem.Models.Entities.PostLike", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<Guid>("PostId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("Name")
+                    b.Property<string>("UserFingerprint")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Password")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Users");
+                    b.HasIndex("PostId", "UserFingerprint")
+                        .IsUnique();
+
+                    b.ToTable("PostLikes");
                 });
 
-            modelBuilder.Entity("postSystem.Models.Entities.Comments", b =>
+            modelBuilder.Entity("postSystem.Models.Entities.Comment", b =>
                 {
-                    b.HasOne("postSystem.Models.Entities.Posts", "Post")
+                    b.HasOne("postSystem.Models.Entities.Post", "Post")
                         .WithMany("Comments")
                         .HasForeignKey("PostId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("postSystem.Models.Entities.Users", "User")
-                        .WithMany("Comments")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Post");
-
-                    b.Navigation("User");
                 });
 
-            modelBuilder.Entity("postSystem.Models.Entities.Posts", b =>
-                {
-                    b.HasOne("postSystem.Models.Entities.Users", "User")
-                        .WithMany("Posts")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("postSystem.Models.Entities.Posts", b =>
+            modelBuilder.Entity("postSystem.Models.Entities.Post", b =>
                 {
                     b.Navigation("Comments");
-                });
-
-            modelBuilder.Entity("postSystem.Models.Entities.Users", b =>
-                {
-                    b.Navigation("Comments");
-
-                    b.Navigation("Posts");
                 });
 #pragma warning restore 612, 618
         }

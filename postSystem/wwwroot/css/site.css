@@ -20,3 +20,58 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+.flex_row {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.flex_column {
+    display: flex;
+    flex-direction: column;
+}
+
+.w_100 {
+    width: 100%;
+}
+
+.w_70 {
+    width: 70%;
+}
+
+.w_30 {
+    width: 30%;
+}
+
+.post-image-card {
+    position: relative;
+    height: 180px;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+    .post-image-card img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+.post-image-title {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    padding: 8px;
+    background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
+    color: #fff;
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.border_top_secondary {
+    border-top: 5px solid grey;
+}
+.logo-image {
+    width: 200px;
+}
