@@ -10,6 +10,10 @@ namespace postSystem.Models
         // Image upload
         public IFormFile Image { get; set; }
         public string Category { get; set; }
+        // When user selects "Other", this field contains the new category name
+        public string? NewCategory { get; set; }
+        // removed IsPublished from the CreatePost form; posts are published by default
+        // kept for backward compatibility but ignored in server logic
         public bool IsPublished { get; set; }
 
         // Required for model binding

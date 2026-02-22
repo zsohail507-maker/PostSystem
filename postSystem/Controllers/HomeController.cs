@@ -52,11 +52,16 @@ namespace postSystem.Controllers
         [HttpGet]
         public async Task<IActionResult> CategorizedPosts(string category, string? search)
         {
-            if (string.IsNullOrWhiteSpace(category))
-                category.Trim();
-
+            // start with published posts
             IQueryable<Post> query = _db.Posts
-                .Where(p => p.IsPublished && p.Category == category);
+                .Where(p => p.IsPublished);
+
+            // apply category filter only when a non-empty category is provided
+            if (!string.IsNullOrWhiteSpace(category))
+            {
+                category = category.Trim();
+                query = query.Where(p => p.Category == category);
+            }
 
             // 🔍 SEARCH WITHIN CATEGORY
             if (!string.IsNullOrWhiteSpace(search))
@@ -74,6 +79,14 @@ namespace postSystem.Controllers
             IndexModel model = new(_db);
             model.Posts = posts;
             model.Search = search;
+            // populate categories for dropdown
+            model.Categories = await _db.Posts
+                .Where(p => p.IsPublished)
+                .GroupBy(p => p.Category)
+                .Select(g => new { Category = g.Key, Count = g.Count() })
+                .ToDictionaryAsync(x => x.Category, x => x.Count);
+            // put selected category as a model property via ViewData (we'll read from query in view too)
+            ViewData["SelectedCategory"] = category;
 
             return View(model);
         }
@@ -82,8 +95,8 @@ namespace postSystem.Controllers
         [HttpPost]
         public IActionResult Search(string searchTerm)
         {
-            if (string.IsNullOrWhiteSpace(searchTerm))
-                searchTerm.Trim();
+            if (!string.IsNullOrWhiteSpace(searchTerm))
+                searchTerm = searchTerm.Trim();
             return RedirectToAction("CategorizedPosts", new { category = searchTerm });
         }
 

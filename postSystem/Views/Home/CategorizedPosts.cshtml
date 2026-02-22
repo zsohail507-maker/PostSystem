@@ -4,13 +4,34 @@
     ViewData["Title"] = "Posts";
 }
 
-<div >
+<div>
 
     <!-- HEADER -->
     <div class="row d-flex justify-content-between align-items-center mb-4">
         <!-- LEFT: TITLE -->
         <div class="col-md-6">
             <h2 class="fw-bold mb-0">Latest Posts</h2>
+            
+            <!-- CATEGORY DROPDOWN -->
+            <form method="get" asp-action="CategorizedPosts" asp-controller="Home" class="mt-3">
+                <div class="d-flex align-items-center">
+                    <label for="categorySelect" class="me-2 mb-0">Category:</label>
+                    <select id="categorySelect" name="category" class="form-select" style="width:220px;" onchange="this.form.submit()">
+                        <option value="">All Categories</option>
+                        @if (Model.Categories != null)
+                        {
+                            foreach (var kvp in Model.Categories)
+                            {
+                                var cat = kvp.Key;
+                                var sel = Context.Request.Query["category"] == cat ? " selected" : "";
+                                @Html.Raw($"<option value=\"{cat}\"{sel}>{cat} ({kvp.Value})</option>")
+                            }
+                        }
+                    </select>
+                    <!-- preserve search term when switching category -->
+                    <input type="hidden" name="search" value="@Context.Request.Query["search"]" />
+                </div>
+            </form>
         </div>
 
         <!-- RIGHT: SEARCH -->
@@ -42,7 +63,7 @@
 
     <!-- POSTS CENTER -->
     <div class="row justify-content-center">
-        <div class="col-lg-8">
+        <div class="col-lg-10">
 
             @if (!Model.Posts.Any())
             {
@@ -52,48 +73,56 @@
             }
             else
             {
-                foreach (var post in Model.Posts)
+                <style>
+                    .card-half { display:flex; flex-direction:row; gap:0; }
+                    .card-half .card-image { width:50%; max-height:220px; overflow:hidden; display:flex; align-items:stretch; justify-content:center; }
+                    .card-half .card-image img { width:100%; height:100%; object-fit:cover; display:block; }
+                    .card-half .card-body { width:50%; padding:1rem; }
+                    @@media (max-width:768px) { .card-half { flex-direction:column; } .card-half .card-image, .card-half .card-body { width:100%; } }
+                </style>
+
+                @foreach (var post in Model.Posts)
                 {
                     <div class="card mb-4 shadow-sm">
-
                         @if (!string.IsNullOrEmpty(post.ImageUrl))
                         {
-                            <img src="@post.ImageUrl"
-                                 class="card-img-top"
-                                 alt="@post.Title" />
-                        }
+                            <div class="card-half">
+                                <div class="card-image">
+                                    <img src="@post.ImageUrl" alt="@post.Title" />
+                                </div>
+                                <div class="card-body">
+                                    <span class="badge bg-secondary mb-2">@post.Category</span>
 
-                <div class="card-body">
-                    <span class="badge bg-secondary mb-2">
-                        @post.Category
-                    </span>
+                                    <h5 class="card-title">
+                                        <a asp-controller="Post" asp-action="Details" asp-route-slug="@post.Slug" class="text-decoration-none text-dark">@post.Title</a>
+                                    </h5>
 
-                    <h5 class="card-title">
-                        <a asp-page="/Posts/Details"
-                           asp-route-slug="@post.Slug"
-                           class="text-decoration-none text-dark">
-                            @post.Title
-                        </a>
-                    </h5>
+                                    <p class="card-text text-muted">@(post.Content.Length > 150 ? post.Content.Substring(0,150) + "..." : post.Content)</p>
 
-                    <p class="card-text text-muted">
-                        @(
-                                                post.Content.Length > 150
-                                                ? post.Content.Substring(0, 150) + "..."
-                                                : post.Content
-                                                )
-                            </p>
-
-                            <div class="d-flex justify-content-between text-secondary small">
-                                <span>
-                                    ❤️ @post.LikesCount |
-                                    👁️ @post.ViewsCount
-                                </span>
-                                <span>
-                                    @post.CreatedAt.ToString("dd MMM yyyy")
-                                </span>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <a asp-controller="Post" asp-action="Details" asp-route-slug="@post.Slug" class="btn btn-sm btn-primary">View Details</a>
+                                        <div class="text-secondary small"><span>❤️ @post.LikesCount | 👁️ @post.ViewsCount</span><span class="ms-3">@post.CreatedAt.ToString("dd MMM yyyy")</span></div>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
+                        }
+                        else
+                        {
+                            <div class="card-body">
+                                <span class="badge bg-secondary mb-2">@post.Category</span>
+
+                                <h5 class="card-title">
+                                    <a asp-controller="Post" asp-action="Details" asp-route-slug="@post.Slug" class="text-decoration-none text-dark">@post.Title</a>
+                                </h5>
+
+                                <p class="card-text text-muted">@(post.Content.Length > 150 ? post.Content.Substring(0,150) + "..." : post.Content)</p>
+
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <a asp-controller="Post" asp-action="Details" asp-route-slug="@post.Slug" class="btn btn-sm btn-primary">View Details</a>
+                                    <div class="text-secondary small"><span>❤️ @post.LikesCount | 👁️ @post.ViewsCount</span><span class="ms-3">@post.CreatedAt.ToString("dd MMM yyyy")</span></div>
+                                </div>
+                            </div>
+                        }
                     </div>
                 }
             }

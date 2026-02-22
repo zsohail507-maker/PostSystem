@@ -30,7 +30,21 @@
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Category</label>
-                            <input asp-for="Category" class="form-control" required />
+                            <select asp-for="Category" class="form-select" id="categorySelect" required>
+                                <option value="">-- Select category --</option>
+                                @if (ViewBag.Categories != null)
+                                {
+                                    foreach (var c in (List<string>)ViewBag.Categories)
+                                    {
+                                        <option value="@c">@c</option>
+                                    }
+                                }
+                                <option value="Other">Other</option>
+                            </select>
+
+                            <div id="newCategoryWrapper" class="mt-2" style="display:none;">
+                                <input asp-for="NewCategory" class="form-control" placeholder="Enter new category name" />
+                            </div>
                         </div>
 
                         <div class="mb-3">
@@ -38,12 +52,7 @@
                             <textarea asp-for="Content" class="form-control" rows="6" required></textarea>
                         </div>
 
-                        <div class="form-check mb-3">
-                            <input asp-for="IsPublished" class="form-check-input" />
-                            <label class="form-check-label">
-                                Publish immediately
-                            </label>
-                        </div>
+                        <!-- All posts are published by default; publish checkbox removed -->
 
                         <div class="d-flex justify-content-between">
                             <a asp-action="Dashboard" class="btn btn-secondary">
@@ -61,3 +70,23 @@
         </div>
     </div>
 </div>
+
+<script>
+    (function () {
+        var select = document.getElementById('categorySelect');
+        var wrapper = document.getElementById('newCategoryWrapper');
+        function toggle() {
+            if (!select) return;
+            if (select.value === 'Other') {
+                wrapper.style.display = 'block';
+            } else {
+                wrapper.style.display = 'none';
+            }
+        }
+        if (select) {
+            select.addEventListener('change', toggle);
+            // run once on load
+            toggle();
+        }
+    })();
+</script>

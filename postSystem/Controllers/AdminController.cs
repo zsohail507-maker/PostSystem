@@ -83,6 +83,15 @@ namespace postSystem.Controllers
         // GET: Admin/CreatePost
         public IActionResult CreatePost()
         {
+            // get existing categories from posts
+            var categories = _db.Posts
+                .Where(p => p.IsPublished)
+                .GroupBy(p => p.Category)
+                .Select(g => g.Key)
+                .OrderBy(c => c)
+                .ToList();
+
+            ViewBag.Categories = categories;
             return View();
         }
 
@@ -91,7 +100,15 @@ namespace postSystem.Controllers
         public IActionResult CreatePost(AddPost model)
         {
             if (!ModelState.IsValid)
-                return View(model);
+                {
+                    ViewBag.Categories = _db.Posts
+                        .Where(p => p.IsPublished)
+                        .GroupBy(p => p.Category)
+                        .Select(g => g.Key)
+                        .OrderBy(c => c)
+                        .ToList();
+                    return View(model);
+                }
 
             string imagePath = null;
 
@@ -118,14 +135,22 @@ namespace postSystem.Controllers
                 imagePath = "/uploads/posts/" + uniqueFileName;
             }
 
+            // If user chose 'Other' and provided a new category, use it
+            var finalCategory = model.Category;
+            if (string.Equals(model.Category, "Other", StringComparison.OrdinalIgnoreCase) && !string.IsNullOrWhiteSpace(model.NewCategory))
+            {
+                finalCategory = model.NewCategory.Trim();
+            }
+
             var post = new Post
             {
                 Id = Guid.NewGuid(),
                 Title = model.Title,
                 Content = model.Content,
-                Category = model.Category,
+                Category = finalCategory,
                 ImageUrl = imagePath,
-                IsPublished = model.IsPublished,
+                // All new posts are published by default
+                IsPublished = true,
                 CreatedAt = DateTime.UtcNow,
                 LikesCount = 0,
                 ViewsCount = 0,

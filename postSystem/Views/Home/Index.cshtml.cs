@@ -17,6 +17,9 @@ namespace postSystem.Views.Home
 
         public List<Post> Posts { get; set; } = new();
 
+        // categories dictionary: category -> count
+        public Dictionary<string, int> Categories { get; set; } = new();
+
         [BindProperty(SupportsGet = true)]
         public string? Search { get; set; }
 

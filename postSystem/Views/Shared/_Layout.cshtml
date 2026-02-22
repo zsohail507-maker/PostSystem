@@ -88,11 +88,11 @@ bootstrap.bundle.min.js"></script>
     <!-- Top Header Start -->
     <div class="top-header">
         <div class="container">
-            <div class="row d-flex justify-content-between">
+            <div class="row d-flex justify-content-between align-content-center">
                 <div class="col-lg-3 col-md-4">
                     <div class="logo">
                         <a href="">
-                            <img src="~/img/logo-removebg-preview.png" width="250" alt="Logo">
+                            <img src="~/img/logo-removebg-preview.png" width="250" height="450" alt="Logo">
                         </a>
                     </div>
                 </div>
@@ -127,13 +127,17 @@ bootstrap.bundle.min.js"></script>
                 <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
                     <div class="navbar-nav m-auto">
                         <a asp-controller="Home" asp-action="Index" class="nav-item nav-link active">Home</a>
+                        <a asp-controller="Home" asp-action="CategorizedPosts" asp-route-category="Education" class="nav-item nav-link">Education</a>
                         <a asp-controller="Home" asp-action="CategorizedPosts" asp-route-category="AI" class="nav-item nav-link">AI</a>
                         <a asp-controller="Home" asp-action="CategorizedPosts" asp-route-category="Tech" class="nav-item nav-link">Tech</a>
                         <a asp-controller="Home" asp-action="CategorizedPosts" asp-route-category="Mobile" class="nav-item nav-link">Mobile</a>
-                        <a asp-controller="Home" asp-action="CategorizedPosts" asp-route-category="Cybersecurity" class="nav-item nav-link">Cybersecurity</a>
+                        <a asp-controller="Home" asp-action="CategorizedPosts" asp-route-category="Sports" class="nav-item nav-link">Sports</a>
                         <a asp-controller="Home" asp-action="CategorizedPosts" asp-route-category="Internet" class="nav-item nav-link">Internet</a>
-                        
-                        
+                        <a asp-controller="Info" asp-action="About" class="nav-item nav-link">About</a>
+                        <a asp-controller="Info" asp-action="Contact" class="nav-item nav-link">Contact</a>
+                        <a asp-controller="Info" asp-action="Privacy" class="nav-item nav-link">Privacy</a>
+                        <a asp-controller="Info" asp-action="Terms" class="nav-item nav-link">Terms</a>
+                        <a asp-controller="Info" asp-action="Disclaimer" class="nav-item nav-link">Disclaimer</a>
                     </div>
                 </div>
             </nav>
@@ -156,10 +160,11 @@ bootstrap.bundle.min.js"></script>
                     <div class="footer-widget">
                         <h3 class="title">Categories Quick Links</h3>
                         <ul>
+                            <li><a asp-controller="Home" asp-action="CategorizedPosts" asp-route-category="Education">Education</a></li>
+                            <li><a asp-controller="Home" asp-action="CategorizedPosts" asp-route-category="AI">Artifitial Intelligence</a></li>
                             <li><a asp-controller="Home" asp-action="CategorizedPosts" asp-route-category="Tech">Technology</a></li>
                             <li><a asp-controller="Home" asp-action="CategorizedPosts" asp-route-category="Mobile">Mobile</a></li>
-                            <li><a asp-controller="Home" asp-action="CategorizedPosts" asp-route-category="AI">Artifitial Intelligence</a></li>
-                            <li><a asp-controller="Home" asp-action="CategorizedPosts" asp-route-category="Cybersecurity">Cybersecurity</a></li>
+                            <li><a asp-controller="Home" asp-action="CategorizedPosts" asp-route-category="Sports">Sports</a></li>
                             <li><a asp-controller="Home" asp-action="CategorizedPosts" asp-route-category="Internet">Internet</a></li>
                         </ul>
                     </div>
@@ -168,7 +173,7 @@ bootstrap.bundle.min.js"></script>
                 
                 <div class="col-lg-3 col-md-6">
                     <div class="footer-widget d-flex flex-column justify-content-center align-content-center">
-                        <img src="~/img/logo-removebg-preview.png" width="200"  alt="Logo">
+                        <img src="~/img/logo-removebg-preview.png" width="200" alt="Logo">
                         <div class="newsletter">
                             <p class="text-center justify-content-center">
                                 Stay ahead in the world of technology with TechZealot News. Get the latest updates on gadgets, artificial intelligence, cybersecurity, mobile technology, and digital innovations. Subscribe now and receive expert insights, trending tech stories, and smart tech tips directly in your inbox.
@@ -182,9 +187,8 @@ bootstrap.bundle.min.js"></script>
                     <div class="footer-widget">
                         <h3 class="title">Get in Touch</h3>
                         <div class="contact-info">
-                            <p><i class="fa fa-map-marker"></i>123 Terry Lane, New York, USA</p>
-                            <p><i class="fa fa-envelope"></i>email@example.com</p>
-                            <p><i class="fa fa-phone"></i>+123-456-7890</p>
+                            <p><i class="fa fa-envelope"></i>usmanrehman29@gmail.com</p>
+                            <p><i class="fa fa-phone"></i>+92 300 7494735</p>
                             <div class="social">
                                 <a target="_blank" href="https://x.com/HaryGoraya"><i class="fab fa-twitter"></i></a>
                                 <a target="_blank" href="https://www.facebook.com/share/1Dh2j8axvQ/"><i class="fab fa-facebook"></i></a>
