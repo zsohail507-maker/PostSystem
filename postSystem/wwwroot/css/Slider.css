@@ -19,3 +19,9 @@
     .slide.active {
         opacity: 1;
     }
+
+    @media (max-width: 767px) {
+        .slider {
+            height: 220px;
+        }
+    }
