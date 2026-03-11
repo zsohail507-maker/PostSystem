@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "wFzDWQ+b5Rw=",
+  "dgSpecHash": "hikj9LdNfvA=",
   "success": true,
   "projectFilePath": "C:\\Users\\Fahad\\Documents\\Codess\\Projects\\DotNetCsharp\\PostSystem\\postSystem\\postSystem.csproj",
   "expectedPackageFiles": [
@@ -51,7 +51,10 @@
     "C:\\Users\\Fahad\\.nuget\\packages\\system.identitymodel.tokens.jwt\\7.7.1\\system.identitymodel.tokens.jwt.7.7.1.nupkg.sha512",
     "C:\\Users\\Fahad\\.nuget\\packages\\system.memory.data\\8.0.1\\system.memory.data.8.0.1.nupkg.sha512",
     "C:\\Users\\Fahad\\.nuget\\packages\\system.security.cryptography.pkcs\\9.0.4\\system.security.cryptography.pkcs.9.0.4.nupkg.sha512",
-    "C:\\Users\\Fahad\\.nuget\\packages\\system.security.cryptography.protecteddata\\9.0.4\\system.security.cryptography.protecteddata.9.0.4.nupkg.sha512"
+    "C:\\Users\\Fahad\\.nuget\\packages\\system.security.cryptography.protecteddata\\9.0.4\\system.security.cryptography.protecteddata.9.0.4.nupkg.sha512",
+    "C:\\Users\\Fahad\\.nuget\\packages\\microsoft.netcore.app.runtime.linux-x64\\10.0.3\\microsoft.netcore.app.runtime.linux-x64.10.0.3.nupkg.sha512",
+    "C:\\Users\\Fahad\\.nuget\\packages\\microsoft.aspnetcore.app.runtime.linux-x64\\10.0.3\\microsoft.aspnetcore.app.runtime.linux-x64.10.0.3.nupkg.sha512",
+    "C:\\Users\\Fahad\\.nuget\\packages\\microsoft.netcore.app.host.linux-x64\\10.0.3\\microsoft.netcore.app.host.linux-x64.10.0.3.nupkg.sha512"
   ],
   "logs": []
 }

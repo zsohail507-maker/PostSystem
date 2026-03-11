@@ -11,10 +11,11 @@ var builder = WebApplication.CreateBuilder(args);
 // MVC
 builder.Services.AddControllersWithViews();
 
-// Database
+// Database: allow override via environment variable (e.g. on Linux production)
+var connectionString = Environment.GetEnvironmentVariable("ConnectionStrings__ConnectionStringF")
+    ?? builder.Configuration.GetConnectionString("ConnectionStringF");
 builder.Services.AddDbContext<MasterDBContext>(options =>
-    options.UseSqlServer(
-        builder.Configuration.GetConnectionString("ConnectionStringF")));
+    options.UseSqlServer(connectionString));
 
 // Session (Admin login)
 builder.Services.AddSession(options =>

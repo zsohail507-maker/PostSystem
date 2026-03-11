@@ -1,0 +1,125 @@
+﻿
+@model postSystem.Views.Home.IndexModel
+@{
+    ViewData["Title"] = "Posts";
+}
+
+<div >
+
+    <!-- HEADER -->
+    <div class="row d-flex justify-content-between align-items-center mb-4">
+        <!-- LEFT: TITLE -->
+        <div class="col-md-6">
+            <h2 class="fw-bold mb-0">Latest Posts</h2>
+            
+            <!-- CATEGORY DROPDOWN -->
+            <form method="get" asp-action="CategorizedPosts" asp-controller="Home" class="mt-3">
+                <div class="d-flex align-items-center">
+                    <label for="categorySelect" class="me-2 mb-0">Category:</label>
+                    <select id="categorySelect" name="category" class="form-select" style="width:220px;" onchange="this.form.submit()">
+                        <option value="">All Categories</option>
+                        @if (Model.Categories != null)
+                        {
+                            foreach (var kvp in Model.Categories)
+                            {
+                                var cat = kvp.Key;
+                                var sel = Context.Request.Query["category"] == cat ? " selected" : "";
+                                @Html.Raw($"<option value=\"{cat}\"{sel}>{cat} ({kvp.Value})</option>")
+                            }
+                        }
+                    </select>
+                    <!-- preserve search term when switching category -->
+                    <input type="hidden" name="search" value="@Context.Request.Query["search"]" />
+                </div>
+            </form>
+        </div>
+
+        <!-- RIGHT: SEARCH -->
+        <div class="col-md-6 d-flex justify-content-end text-end">
+            <form method="get"
+                  asp-action="CategorizedPosts"
+                  asp-controller="Home"
+                  class="d-inline-flex">
+
+                <input type="text"
+                       name="search"
+                       value="@Context.Request.Query["search"]"
+                       class="form-control me-2"
+                       placeholder="Search posts..."
+                       style="max-width:220px;height:40px" />
+
+                <!-- preserve category -->
+                <input type="hidden"
+                       name="category"
+                       value="@Context.Request.Query["category"]" />
+
+                <button class="btn btn-dark" style="height:40px">
+                    Search
+                </button>
+            </form>
+
+        </div>
+    </div>
+
+    <!-- POSTS CENTER -->
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+
+            @if (!Model.Posts.Any())
+            {
+                <div class="alert alert-warning text-center">
+                    No posts found.
+                </div>
+            }
+            else
+            {
+                foreach (var post in Model.Posts)
+                {
+                    <div class="card mb-4 shadow-sm">
+
+                        @if (!string.IsNullOrEmpty(post.ImageUrl))
+                        {
+                            <img src="@post.ImageUrl"
+                                 class="card-img-top"
+                                 alt="@post.Title" />
+                        }
+
+                <div class="card-body">
+                    <span class="badge bg-secondary mb-2">
+                        @post.Category
+                    </span>
+
+                    <h5 class="card-title">
+                        <a asp-page="/Posts/Details"
+                           asp-route-slug="@post.Slug"
+                           class="text-decoration-none text-dark">
+                            @post.Title
+                        </a>
+                    </h5>
+
+                    <p class="card-text text-muted">
+                        @(
+                                                post.Content.Length > 150
+                                                ? post.Content.Substring(0, 150) + "..."
+                                                : post.Content
+                                                )
+                            </p>
+
+                            <div class="d-flex justify-content-between text-secondary small">
+                                <span>
+                                    ❤️ @post.LikesCount |
+                                    👁️ @post.ViewsCount
+                                </span>
+                                <span>
+                                    @post.CreatedAt.ToString("dd MMM yyyy")
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+
+        </div>
+    </div>
+
+</div>

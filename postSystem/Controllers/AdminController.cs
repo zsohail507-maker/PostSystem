@@ -58,6 +58,46 @@ namespace postSystem.Controllers
             return RedirectToAction("Login");
         }
 
+
+        public IActionResult ChangePassword()
+{
+    if (!IsAdminLoggedIn())
+        return RedirectToAction("Login");
+    return View(new ChangePasswordViewModel());
+}
+
+[HttpPost]
+[ValidateAntiForgeryToken]
+public IActionResult ChangePassword(ChangePasswordViewModel model)
+{
+    if (!IsAdminLoggedIn())
+        return RedirectToAction("Login");
+
+    if (!ModelState.IsValid)
+        return View(model);
+
+    var username = HttpContext.Session.GetString("Admin");
+    if (string.IsNullOrEmpty(username))
+        return RedirectToAction("Login");
+
+    var admin = _db.AdminUsers.FirstOrDefault(a => a.Username == username);
+    if (admin == null)
+        return RedirectToAction("Login");
+
+    var hasher = new PasswordHasher<AdminUser>();
+    if (hasher.VerifyHashedPassword(admin, admin.Password, model.CurrentPassword) != PasswordVerificationResult.Success)
+    {
+        ModelState.AddModelError(nameof(ChangePasswordViewModel.CurrentPassword), "Current password is incorrect.");
+        return View(model);
+    }
+
+    admin.Password = hasher.HashPassword(admin, model.NewPassword);
+    _db.SaveChanges();
+
+    TempData["Success"] = "Password changed successfully.";
+    return RedirectToAction("Dashboard");
+}
+
         private bool IsAdminLoggedIn()
         {
             return HttpContext.Session.GetString("Admin") != null;

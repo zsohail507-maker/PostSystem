@@ -1,0 +1,29 @@
+﻿body {
+    background-color: #f8f9fa;
+}
+
+.container-split {
+    display: flex;
+    flex-wrap: wrap;
+    height: 100vh;
+    padding-top: 2rem;
+}
+
+.left-pane, .right-pane {
+    padding: 1rem;
+}
+
+.left-pane {
+    flex: 1 1 50%;
+    border-right: 1px solid #dee2e6;
+}
+
+.right-pane {
+    flex: 1 1 50%;
+    overflow-y: auto;
+    max-height: calc(100vh - 4rem);
+}
+
+.comment-card {
+    margin-bottom: 1rem;
+}

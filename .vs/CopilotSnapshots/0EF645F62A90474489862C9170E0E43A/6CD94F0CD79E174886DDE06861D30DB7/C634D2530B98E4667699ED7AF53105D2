@@ -1,0 +1,59 @@
+﻿@model Post
+@{
+    ViewData["Title"] = Model.Title;
+}
+<h1>@Model.Title</h1>
+<p class="text-muted">
+    @Model.CreatedAt.ToString("dd MMM yyyy") |
+    @Model.ViewsCount views
+</p>
+<img src="@Model.ImageUrl" class="img-fluid mb-4" />
+<div class="mb-4">@Html.Raw(Model.Content)</div>
+<button class="btn btn-outline-danger" onclick="likePost('@Model.Id')">
+    ❤
+    ️ Like (<span id="likeCount">@Model.LikesCount</span>)
+</button>
+<hr />
+<h4>Comments</h4>
+@foreach (var c in Model.Comments)
+{
+    <div class="border rounded p-3 mb-2">
+        <strong>@c.UserName</strong>
+        <p>@c.Content</p>
+    </div>
+}
+<form asp-controller="Comment" asp-action="Add" method="post" class="mt-4">
+    @Html.AntiForgeryToken()
+    <input type="hidden" name="postId" value="@Model.Id" />
+    <div class="mb-3">
+        <label class="form-label">Name</label>
+        <input name="userName" class="form-control" required />
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Comment</label>
+        <textarea name="content" class="form-control" rows="3" required></textarea>
+    </div>
+    <button class="btn btn-success">Submit Comment</button>
+</form>
+@section Scripts {
+    <script>
+        if (!localStorage.getItem('fingerprint')) {
+            localStorage.setItem('fingerprint', crypto.randomUUID());
+        }
+        function likePost(postId) {
+                    fetch('/post/like', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                postId: postId,
+                fingerprint: localStorage.getItem('fingerprint')
+            })
+        })
+        .then(r => r.json())
+        .then(d => {
+            document.getElementById('likeCount').innerText = d.likes;
+        });
+
+        }
+    </script>
+}
